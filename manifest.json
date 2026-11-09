@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "Network Monitor — API & WebSocket Inspector",
+  "short_name": "Network Monitor",
+  "version": "2.0.0",
+  "description": "Inspect fetch, XHR, WebSocket and EventSource traffic — headers, payloads and responses — in a floating or docked panel.",
+  "minimum_chrome_version": "111",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/inject/interceptor.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "src/content/utils.js",
+        "src/content/icons.js",
+        "src/content/styles.js",
+        "src/content/store.js",
+        "src/content/layout.js",
+        "src/content/details.js",
+        "src/content/panel.js",
+        "src/content/main.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "Toggle Network Monitor",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+N" },
+      "description": "Toggle the Network Monitor panel"
+    }
+  }
+}
